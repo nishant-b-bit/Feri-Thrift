@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -15,8 +16,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
+  String completePhoneNumber = '';
+
   final green = const Color(0xFF15583F);
   final grey = const Color(0xFF60717A);
+  final background = const Color(0xFFFAFAF3);
 
   @override
   void dispose() {
@@ -25,19 +29,61 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
 
+  // RESET BUTTON
+  void sendReset() {
+    if (isEmail) {
+      final email = emailController.text.trim();
+
+      if (email.isEmpty || !email.contains('@')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter a valid email address'),
+          ),
+        );
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Reset link requested for $email'),
+        ),
+      );
+    } else {
+      if (phoneController.text.trim().isEmpty ||
+          completePhoneNumber.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter your phone number'),
+          ),
+        );
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Reset code requested for $completePhoneNumber'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAF3),
+      backgroundColor: background,
 
+      // APP BAR
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFAFAF3),
+        backgroundColor: background,
         elevation: 0,
         toolbarHeight: 50,
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
         ),
         title: Text(
           '● FERI THRIFT',
@@ -54,34 +100,37 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Column(
             children: [
+
               const SizedBox(height: 12),
 
-              // Feri Thrift Logo
+              // FERI THRIFT LOGO
               Container(
                 height: 105,
                 width: 105,
-                padding: const EdgeInsets.all(8),
                 decoration: const BoxDecoration(
                   color: Color(0xFFE7EADD),
                   shape: BoxShape.circle,
                 ),
+                clipBehavior: Clip.antiAlias,
                 child: Image.asset(
-                  'assets/images/feri_logo.png',
+                  'assets/images/logo.png',
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) =>
-                  const Icon(
-                    Icons.checkroom,
-                    color: Color(0xFF15583F),
-                    size: 50,
-                  ),
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.checkroom,
+                      color: Color(0xFF15583F),
+                      size: 50,
+                    );
+                  },
                 ),
               ),
 
               const SizedBox(height: 22),
 
-              // Heading
+              // HEADING
               const Text(
                 'Reset Password',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 27,
                   fontWeight: FontWeight.w600,
@@ -91,7 +140,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 10),
 
-              // Description
+              // DESCRIPTION
               Text(
                 'Enter your registered email address\n'
                     'or phone number to receive a reset link/code.',
@@ -105,7 +154,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 25),
 
-              // Email / Phone Toggle
+              // EMAIL / PHONE TOGGLE
               Container(
                 height: 52,
                 padding: const EdgeInsets.all(3),
@@ -114,6 +163,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     _tab('Email', Icons.mail_outline, true),
                     _tab('Phone Number', Icons.phone_outlined, false),
@@ -123,7 +173,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 28),
 
-              // Animated Input Field
+              // ANIMATED INPUT FIELD
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 switchInCurve: Curves.easeOut,
@@ -139,40 +189,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   );
                 },
                 child: isEmail
-                    ? _input(
-                  key: const ValueKey('email'),
-                  controller: emailController,
-                  hint: 'Enter your email address',
-                  icon: Icons.mail_outline,
-                  type: TextInputType.emailAddress,
-                )
-                    : _input(
-                  key: const ValueKey('phone'),
-                  controller: phoneController,
-                  hint: 'Enter your phone number',
-                  icon: Icons.phone_outlined,
-                  type: TextInputType.phone,
-                ),
+                    ? _emailInput()
+                    : _phoneInput(),
               ),
 
               const SizedBox(height: 30),
 
-              // Send Reset Button
+              // SEND RESET BUTTON
               SizedBox(
                 width: double.infinity,
                 height: 58,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (isEmail) {
-                      // Email reset action
-                      final email = emailController.text.trim();
-                      debugPrint('Reset email: $email');
-                    } else {
-                      // Phone reset action
-                      final phone = phoneController.text.trim();
-                      debugPrint('Reset phone: $phone');
-                    }
-                  },
+                  onPressed: sendReset,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: green,
                     foregroundColor: Colors.white,
@@ -205,7 +233,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 35),
 
-              // Security Illustration
+              // SECURITY ICON
               Icon(
                 Icons.verified_user_outlined,
                 color: green,
@@ -214,7 +242,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 12),
 
-              // Bottom Information
+              // BOTTOM INFORMATION
               Text(
                 isEmail
                     ? 'ⓘ  You’ll receive a reset link in your email\n'
@@ -237,91 +265,132 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  // Email / Phone Toggle
+  // TOGGLE BUTTON
   Widget _tab(String title, IconData icon, bool email) {
     final selected = isEmail == email;
 
     return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          setState(() {
-            isEmail = email;
-          });
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          decoration: BoxDecoration(
-            color: selected ? green : Colors.transparent,
-            borderRadius: BorderRadius.circular(40),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                color: selected ? Colors.white : green,
-                size: 17,
-              ),
-              const SizedBox(width: 7),
-              Flexible(
-                child: Text(
-                  title,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: selected ? Colors.white : grey,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(40),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(40),
+          onTap: () {
+            setState(() {
+              isEmail = email;
+            });
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: selected ? green : Colors.transparent,
+              borderRadius: BorderRadius.circular(40),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: selected ? Colors.white : green,
+                  size: 18,
+                ),
+                const SizedBox(width: 7),
+                Flexible(
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: selected ? Colors.white : grey,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  // Reusable Input Field
-  Widget _input({
-    required Key key,
-    required TextEditingController controller,
-    required String hint,
-    required IconData icon,
-    required TextInputType type,
-  }) {
+  // EMAIL INPUT
+  Widget _emailInput() {
     return Container(
-      key: key,
+      key: const ValueKey('email'),
       height: 64,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(40),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+      decoration: _inputDecoration(),
       child: TextField(
-        controller: controller,
-        keyboardType: type,
-        decoration: InputDecoration(
+        controller: emailController,
+        keyboardType: TextInputType.emailAddress,
+        decoration: const InputDecoration(
           border: InputBorder.none,
-          hintText: hint,
-          hintStyle: const TextStyle(
+          hintText: 'Enter your email address',
+          hintStyle: TextStyle(
             color: Color(0xFFAAAAAA),
             fontSize: 12,
           ),
           prefixIcon: Icon(
-            icon,
-            color: green,
+            Icons.mail_outline,
+            color: Color(0xFF15583F),
             size: 21,
           ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 22),
+          contentPadding: EdgeInsets.symmetric(vertical: 22),
         ),
       ),
+    );
+  }
+
+  // INTERNATIONAL PHONE INPUT
+  Widget _phoneInput() {
+    return Container(
+      key: const ValueKey('phone'),
+      height: 64,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: _inputDecoration(),
+      child: IntlPhoneField(
+        controller: phoneController,
+        initialCountryCode: 'NP',
+        showDropdownIcon: true,
+        dropdownIconPosition: IconPosition.trailing,
+        flagsButtonPadding: const EdgeInsets.symmetric(horizontal: 5),
+        disableLengthCheck: true,
+        style: const TextStyle(fontSize: 13),
+        dropdownTextStyle: TextStyle(
+          color: green,
+          fontSize: 13,
+        ),
+        decoration: const InputDecoration(
+          hintText: 'Enter your phone number',
+          hintStyle: TextStyle(
+            color: Color(0xFFAAAAAA),
+            fontSize: 12,
+          ),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 18),
+        ),
+        onChanged: (phone) {
+          completePhoneNumber = phone.completeNumber;
+        },
+      ),
+    );
+  }
+
+  // REUSABLE INPUT DECORATION
+  BoxDecoration _inputDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(40),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.05),
+          blurRadius: 10,
+          offset: const Offset(0, 3),
+        ),
+      ],
     );
   }
 }
