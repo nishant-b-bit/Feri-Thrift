@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "555174344932",
+    "project_id": "ai39c-ff061",
+    "storage_bucket": "ai39c-ff061.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555174344932:android:c70b8f6d52ab4c555e14f1",
+        "android_client_info": {
+          "package_name": "com.example.feri_thrift"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwGdd4lRWhir_rrOL8kdmWnPS77wfFR4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
