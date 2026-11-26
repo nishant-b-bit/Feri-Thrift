@@ -9,3 +9,28 @@ class AppColors {
   static const accent = Color(0xFFB76E4B);     // terracotta
   static const card = Color(0xFFFAF5EB);       // soft white-cream
 }
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _useMobile = true;
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
+  }
+}
