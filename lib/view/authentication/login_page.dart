@@ -7,11 +7,13 @@ void main() => runApp(const MaterialApp(
 ));
 
 class AppColors {
-  static const background = Color(0xFFF9F8EF);
-  static const primary = Color(0xFF244D3B);
-  static const field = Color(0xFFEFEEE5);
-  static const muted = Color(0xFF6F7A73);
-  static const chip = Color(0xFFE9DFCB);
+  static const background = Color(0xFFF0E6D6); // cream
+  static const primary = Color(0xFF234E3C);    // deep green
+  static const field = Color(0xFFE3D3B8);      // light tan (input fields)
+  static const muted = Color(0xFF6B6354);      // warm grey-brown text
+  static const chip = Color(0xFFD9C4A5);       // tan
+  static const accent = Color(0xFFB76E4B);     // terracotta
+  static const card = Color(0xFFFAF5EB);       // soft white-cream
 }
 
 class LoginScreen extends StatefulWidget {
@@ -56,24 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
         scrolledUnderElevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back, color: AppColors.primary),
           onPressed: () => Navigator.maybePop(context),
         ),
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.circle, size: 7, color: AppColors.primary),
-            SizedBox(width: 6),
-            Text(
-              'FERI THRIFT',
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w800,
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
+        // Title removed: the logo already contains "FERI THRIFT"
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -82,14 +70,15 @@ class _LoginScreenState extends State<LoginScreen> {
             key: _formKey,
             child: Column(
               children: [
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 _buildLogo(),
-                const SizedBox(height: 10),
-                _buildBrandRow(),
                 const SizedBox(height: 14),
                 const Text(
                   'Welcome Back',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primary),
                 ),
                 const SizedBox(height: 6),
                 const Padding(
@@ -109,7 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     _useMobile ? 'Mobile Number' : 'Email Address',
                     style: const TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w600),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -151,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text(
                           'Use Password instead',
                           style: TextStyle(
-                            color: AppColors.primary,
+                            color: AppColors.accent,
                             fontWeight: FontWeight.w700,
                             fontSize: 13,
                           ),
@@ -171,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Don't have an account? ",
-                        style: TextStyle(color: Color(0xFF444444))),
+                        style: TextStyle(color: AppColors.muted)),
                     GestureDetector(
                       onTap: () {
                         // TODO: navigate to sign up
@@ -179,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(
-                          color: AppColors.primary,
+                          color: AppColors.accent,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
@@ -198,54 +189,22 @@ class _LoginScreenState extends State<LoginScreen> {
   // ---------- Widgets ----------
 
   Widget _buildLogo() {
-    return Container(
-      width: 78,
-      height: 78,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: const Color(0xFFE6E5DB),
-        border: Border.all(color: const Color(0xFFD8D7CB), width: 3),
-      ),
-      child: ClipOval(
-        child: Image.asset(
-          'assets/images/logo.png',
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => const Icon(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(24),
+      child: Image.asset(
+        'assets/images/logo.png',
+        width: 220,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
+          // Shows the real reason in your console if the asset fails to load
+          debugPrint('LOGO ERROR: $error');
+          return const Icon(
             Icons.checkroom,
-            size: 36,
+            size: 60,
             color: AppColors.primary,
-          ),
-        ),
+          );
+        },
       ),
-    );
-  }
-
-  Widget _buildBrandRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          'Feri Thrift',
-          style: TextStyle(
-            fontSize: 19,
-            fontWeight: FontWeight.w800,
-            color: AppColors.primary,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(
-            color: AppColors.chip,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Text(
-            'फेरी',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-          ),
-        ),
-      ],
     );
   }
 
@@ -274,13 +233,13 @@ class _LoginScreenState extends State<LoginScreen> {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 11),
           decoration: BoxDecoration(
-            color: selected ? Colors.white : Colors.transparent,
+            color: selected ? AppColors.card : Colors.transparent,
             borderRadius: BorderRadius.circular(9),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 18, color: Colors.black87),
+              Icon(icon, size: 18, color: AppColors.primary),
               const SizedBox(width: 6),
               Text(label,
                   style: const TextStyle(
@@ -306,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
           const Text('+977',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
           const SizedBox(width: 10),
-          Container(width: 1, height: 20, color: Colors.black26),
+          Container(width: 1, height: 20, color: AppColors.muted),
           const SizedBox(width: 10),
           Expanded(
             child: TextFormField(
@@ -394,7 +353,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildDivider() {
     return Row(
       children: const [
-        Expanded(child: Divider(color: Colors.black26)),
+        Expanded(child: Divider(color: AppColors.chip)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
           child: Text(
@@ -403,7 +362,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontSize: 11.5, letterSpacing: 1, color: AppColors.muted),
           ),
         ),
-        Expanded(child: Divider(color: Colors.black26)),
+        Expanded(child: Divider(color: AppColors.chip)),
       ],
     );
   }
@@ -417,8 +376,8 @@ class _LoginScreenState extends State<LoginScreen> {
           // TODO: Google sign-in (google_sign_in package)
         },
         style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.white,
-          side: const BorderSide(color: Color(0xFFEAEAEA)),
+          backgroundColor: AppColors.card,
+          side: const BorderSide(color: AppColors.chip),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -437,7 +396,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(width: 8),
             Text('Google',
                 style: TextStyle(
-                    color: Colors.black87, fontWeight: FontWeight.w600)),
+                    color: AppColors.primary, fontWeight: FontWeight.w600)),
           ],
         ),
       ),
