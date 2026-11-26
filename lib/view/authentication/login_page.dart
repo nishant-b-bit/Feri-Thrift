@@ -260,3 +260,22 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+Widget _buildDivider() {
+  return Row(
+    children: const [
+      Expanded(child: Divider(color: AppColors.chip)),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        child: Text(
+          'OR CONTINUE WITH',
+          style: TextStyle(
+            fontSize: 11.5,
+            letterSpacing: 1,
+            color: AppColors.muted,
+          ),
+        ),
+      ),
+      Expanded(child: Divider(color: AppColors.chip)),
+    ],
+  );
+}g
