@@ -97,6 +97,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
                 _buildToggle(),
                 const SizedBox(height: 18),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    _useMobile ? 'Mobile Number' : 'Email Address',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
                 _useMobile ? _buildPhoneField() : _buildEmailField(),
                 const SizedBox(height: 24),
                 _buildPrimaryButton(),
