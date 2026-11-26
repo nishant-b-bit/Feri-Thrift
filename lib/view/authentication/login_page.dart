@@ -279,3 +279,38 @@ Widget _buildDivider() {
     ],
   );
 }
+Widget _buildGoogleButton() {
+  return SizedBox(
+    width: double.infinity,
+    height: 48,
+    child: OutlinedButton(
+      onPressed: () {
+        // TODO: Google sign-in (google_sign_in package)
+      },
+      style: OutlinedButton.styleFrom(
+        backgroundColor: AppColors.card,
+        side: const BorderSide(color: AppColors.chip),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'G',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+              color: Color(0xFF4285F4),
+            ),
+          ),
+          SizedBox(width: 8),
+          Text('Google',
+              style: TextStyle(
+                  color: AppColors.primary, fontWeight: FontWeight.w600)),
+        ],
+      ),
+    ),
+  );
+}
