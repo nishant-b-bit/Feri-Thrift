@@ -65,4 +65,26 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  // ---------- Widgets ----------
+
+  Widget _buildLogo() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(24),
+      child: Image.asset(
+        'assets/images/logo.png',
+        width: 220,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
+          // Shows the real reason in your console if the asset fails to load
+          debugPrint('LOGO ERROR: $error');
+          return const Icon(
+            Icons.checkroom,
+            size: 60,
+            color: AppColors.primary,
+          );
+        },
+      ),
+    );
+  }
 }
