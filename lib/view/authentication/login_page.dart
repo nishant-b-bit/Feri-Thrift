@@ -278,4 +278,4 @@ Widget _buildDivider() {
       Expanded(child: Divider(color: AppColors.chip)),
     ],
   );
-}g
+}
