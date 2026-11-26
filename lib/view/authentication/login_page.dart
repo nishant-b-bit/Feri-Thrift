@@ -184,4 +184,29 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  Widget _buildEmailField() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      decoration: BoxDecoration(
+        color: AppColors.field,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextFormField(
+        controller: _emailController,
+        keyboardType: TextInputType.emailAddress,
+        decoration: const InputDecoration(
+          hintText: 'you@example.com',
+          prefixIcon: Icon(Icons.mail_outline, color: AppColors.muted),
+          border: InputBorder.none,
+        ),
+        validator: (v) {
+          final ok = RegExp(
+            r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+          ).hasMatch(v?.trim() ?? '');
+          return ok ? null : 'Enter a valid email address';
+        },
+      ),
+    );
+  }
 }
