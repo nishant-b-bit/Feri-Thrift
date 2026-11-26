@@ -63,6 +63,27 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         // Title removed: the logo already contains "FERI THRIFT"
       ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 12),
+                Center(child: _buildLogo()),
+                const SizedBox(height: 28),
+                _buildToggle(),
+                const SizedBox(height: 18),
+                _useMobile ? _buildPhoneField() : _buildEmailField(),
+                const SizedBox(height: 24),
+                _buildPrimaryButton(),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -206,6 +227,35 @@ class _LoginScreenState extends State<LoginScreen> {
           ).hasMatch(v?.trim() ?? '');
           return ok ? null : 'Enter a valid email address';
         },
+      ),
+    );
+  }
+
+  Widget _buildPrimaryButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: ElevatedButton(
+        onPressed: _sendOtp,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _useMobile ? 'Send OTP Code' : 'Send Login Code',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(width: 8),
+            const Icon(Icons.login, size: 18),
+          ],
+        ),
       ),
     );
   }
