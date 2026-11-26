@@ -134,47 +134,54 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}  Widget _buildPhoneField() {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 14),
-    decoration: BoxDecoration(
-      color: AppColors.field,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Row(
-      children: [
-        const Text('🇳🇵', style: TextStyle(fontSize: 18)),
-        const SizedBox(width: 6),
-        const Text('+977',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
-        const SizedBox(width: 10),
-        Container(width: 1, height: 20, color: AppColors.muted),
-        const SizedBox(width: 10),
-        Expanded(
-          child: TextFormField(
-            controller: _phoneController,
-            keyboardType: TextInputType.phone,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(10),
-            ],
-            style: const TextStyle(fontSize: 16),
-            decoration: const InputDecoration(
-              hintText: '9841234567',
-              border: InputBorder.none,
-              errorStyle: TextStyle(height: 0.8),
-            ),
-            validator: (v) {
-              if (v == null || v.length != 10 || !v.startsWith('9')) {
-                return 'Enter a valid 10-digit number';
-              }
-              return null;
-            },
+
+  Widget _buildPhoneField() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      decoration: BoxDecoration(
+        color: AppColors.field,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          const Text('🇳🇵', style: TextStyle(fontSize: 18)),
+          const SizedBox(width: 6),
+          const Text(
+            '+977',
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
           ),
-        ),
-        const Icon(Icons.verified_user_outlined,
-            size: 20, color: AppColors.muted),
-      ],
-    ),
-  );
+          const SizedBox(width: 10),
+          Container(width: 1, height: 20, color: AppColors.muted),
+          const SizedBox(width: 10),
+          Expanded(
+            child: TextFormField(
+              controller: _phoneController,
+              keyboardType: TextInputType.phone,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(10),
+              ],
+              style: const TextStyle(fontSize: 16),
+              decoration: const InputDecoration(
+                hintText: '9841234567',
+                border: InputBorder.none,
+                errorStyle: TextStyle(height: 0.8),
+              ),
+              validator: (v) {
+                if (v == null || v.length != 10 || !v.startsWith('9')) {
+                  return 'Enter a valid 10-digit number';
+                }
+                return null;
+              },
+            ),
+          ),
+          const Icon(
+            Icons.verified_user_outlined,
+            size: 20,
+            color: AppColors.muted,
+          ),
+        ],
+      ),
+    );
+  }
 }
