@@ -65,20 +65,46 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 12),
-                Center(child: _buildLogo()),
-                const SizedBox(height: 28),
+                const SizedBox(height: 8),
+                _buildLogo(),
+                const SizedBox(height: 14),
+                const Text(
+                  'Welcome Back',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.primary,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Sign in to discover curated vintage & pre-loved treasures in Nepal.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: AppColors.muted,
+                      height: 1.4,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
                 _buildToggle(),
                 const SizedBox(height: 18),
                 _useMobile ? _buildPhoneField() : _buildEmailField(),
                 const SizedBox(height: 24),
                 _buildPrimaryButton(),
+                const SizedBox(height: 24),
+                _buildDivider(),
+                const SizedBox(height: 18),
+                _buildGoogleButton(),
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -259,58 +285,64 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
-Widget _buildDivider() {
-  return Row(
-    children: const [
-      Expanded(child: Divider(color: AppColors.chip)),
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        child: Text(
-          'OR CONTINUE WITH',
-          style: TextStyle(
-            fontSize: 11.5,
-            letterSpacing: 1,
-            color: AppColors.muted,
-          ),
-        ),
-      ),
-      Expanded(child: Divider(color: AppColors.chip)),
-    ],
-  );
-}
-Widget _buildGoogleButton() {
-  return SizedBox(
-    width: double.infinity,
-    height: 48,
-    child: OutlinedButton(
-      onPressed: () {
-        // TODO: Google sign-in (google_sign_in package)
-      },
-      style: OutlinedButton.styleFrom(
-        backgroundColor: AppColors.card,
-        side: const BorderSide(color: AppColors.chip),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text(
-            'G',
+
+  Widget _buildDivider() {
+    return Row(
+      children: const [
+        Expanded(child: Divider(color: AppColors.chip)),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            'OR CONTINUE WITH',
             style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF4285F4),
+              fontSize: 11.5,
+              letterSpacing: 1,
+              color: AppColors.muted,
             ),
           ),
-          SizedBox(width: 8),
-          Text('Google',
+        ),
+        Expanded(child: Divider(color: AppColors.chip)),
+      ],
+    );
+  }
+
+  Widget _buildGoogleButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: OutlinedButton(
+        onPressed: () {
+          // TODO: Google sign-in (google_sign_in package)
+        },
+        style: OutlinedButton.styleFrom(
+          backgroundColor: AppColors.card,
+          side: const BorderSide(color: AppColors.chip),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              'G',
               style: TextStyle(
-                  color: AppColors.primary, fontWeight: FontWeight.w600)),
-        ],
+                fontSize: 22,
+                fontWeight: FontWeight.w900,
+                color: Color(0xFF4285F4),
+              ),
+            ),
+            SizedBox(width: 8),
+            Text(
+              'Google',
+              style: TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
