@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 class AppColors {
   static const background = Color(0xFFF0E6D6); // cream
   static const primary = Color(0xFF234E3C);    // deep green
@@ -9,6 +10,8 @@ class AppColors {
   static const accent = Color(0xFFB76E4B);     // terracotta
   static const card = Color(0xFFFAF5EB);       // soft white-cream
 }
+// >>> COMMIT 01: chore: add imports and AppColors theme palette
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -28,9 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     super.dispose();
   }
+  // >>> COMMIT 02: feat: create LoginScreen widget with state and controllers
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold();
+  void _sendOtp() {
+    if (!_formKey.currentState!.validate()) return;
+    // TODO: call your OTP API here
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(_useMobile
+            ? 'OTP sent to +977 ${_phoneController.text}'
+            : 'Code sent to ${_emailController.text}'),
+      ),
+    );
   }
-}
+  // >>> COMMIT 03: feat: add _sendOtp with form validation and snackbar
+
+  }
