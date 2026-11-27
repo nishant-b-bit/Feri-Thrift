@@ -10,7 +10,6 @@ class AppColors {
   static const accent = Color(0xFFB76E4B); // terracotta
   static const card = Color(0xFFFAF5EB); // soft white-cream
 }
-// >>> COMMIT 01: chore: add imports and AppColors theme palette
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     super.dispose();
   }
-  // >>> COMMIT 02: feat: create LoginScreen widget with state and controllers
 
   void _sendOtp() {
     if (!_formKey.currentState!.validate()) return;
@@ -46,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  // >>> COMMIT 03: feat: add _sendOtp with form validation and snackbar
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          // TODO: navigate to password login
+                          // TODO: navigate to forgot password screen
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -146,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: const Text(
-                          'Use Password instead',
+                          'Forgot Password?',
                           style: TextStyle(
                             color: AppColors.accent,
                             fontWeight: FontWeight.w700,
@@ -163,7 +160,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 _buildDivider(),
                 const SizedBox(height: 18),
                 _buildGoogleButton(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 28),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have an account? ",
+                      style: TextStyle(color: AppColors.muted),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // TODO: navigate to sign up
+                      },
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: AppColors.accent,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
               ],
             ),
           ),
